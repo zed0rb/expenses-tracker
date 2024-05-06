@@ -5,10 +5,7 @@ This project is a Vue-based application with user authentication,
 allowing users to create accounts, sign in,
 and log out. It includes transaction management features such as adding,
 deleting, and viewing transactions, as well as tracking income and expenses.
-The backend uses TRPC for API communication.
-
-
-
+The backend uses TRPC for API communication. Online preview https://expenses.l6ptbg8a0pfjk.eu-central-1.cs.amazonlightsail.com
 
 ## Features
 - User authentication (sign-up, sign-in, log out).
