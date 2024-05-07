@@ -1,48 +1,3 @@
-<template>
-  <div>
-    <h3>Transaction History</h3>
-
-    <select v-model="filterType" @change="applyFilter" class="filter-dropdown">
-      <option value="all">All</option>
-      <option value="deposit">Deposits</option>
-      <option value="withdraw">Withdrawals</option>
-    </select>
-
-    <div v-if="filteredTransactions.length === 0" class="no-transactions-message">
-      No transactions yet for "{{ filterType }}"
-    </div>
-
-    <ul id="list" class="list">
-      <li class="header">
-        <span class="description">Description</span>
-        <span class="amount">Amount</span>
-        <span class="type">Type</span>
-        <span class="actions">Actions</span>
-      </li>
-      <li
-        v-for="transaction in paginatedTransactions"
-        :key="transaction.id"
-        :class="transaction.type === 'withdraw' ? 'withdraw' : 'deposit'"
-      >
-        <span class="description" :title="transaction.description">
-          {{ transaction.description }}
-        </span>
-        <span class="amount">€{{ transaction.amount }}</span>
-        <span class="type">{{ transaction.type }}</span>
-        <span class="actions">
-          <button class="delete-btn" @click="handleDelete(transaction.id)">Delete</button>
-        </span>
-      </li>
-    </ul>
-
-    <div class="pagination" v-if="totalPages > 1">
-      <button :disabled="currentPage === 1" @click="previousPage" class="pagination-button">Previous</button>
-      <span class="pagination-info">Page {{ currentPage }} of {{ totalPages }}</span>
-      <button :disabled="currentPage === totalPages" @click="nextPage" class="pagination-button">Next</button>
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import type { TransactionBare } from '@mono/server/src/shared/entities';
@@ -99,6 +54,51 @@ const applyFilter = () => {
   currentPage.value = 1;
 };
 </script>
+
+<template>
+  <div>
+    <h3>Transaction History</h3>
+
+    <select v-model="filterType" @change="applyFilter" class="filter-dropdown">
+      <option value="all">All</option>
+      <option value="deposit">Deposits</option>
+      <option value="withdraw">Withdrawals</option>
+    </select>
+
+    <div v-if="filteredTransactions.length === 0" class="no-transactions-message">
+      No transactions yet for "{{ filterType }}"
+    </div>
+
+    <ul id="list" class="list">
+      <li class="header">
+        <span class="description">Description</span>
+        <span class="amount">Amount</span>
+        <span class="type">Type</span>
+        <span class="actions">Actions</span>
+      </li>
+      <li
+        v-for="transaction in paginatedTransactions"
+        :key="transaction.id"
+        :class="transaction.type === 'withdraw' ? 'withdraw' : 'deposit'"
+      >
+        <span class="description" :title="transaction.description">
+          {{ transaction.description }}
+        </span>
+        <span class="amount">€{{ transaction.amount }}</span>
+        <span class="type">{{ transaction.type }}</span>
+        <span class="actions">
+          <button class="delete-btn" @click="handleDelete(transaction.id)">Delete</button>
+        </span>
+      </li>
+    </ul>
+
+    <div class="pagination" v-if="totalPages > 1">
+      <button :disabled="currentPage === 1" @click="previousPage" class="pagination-button">Previous</button>
+      <span class="pagination-info">Page {{ currentPage }} of {{ totalPages }}</span>
+      <button :disabled="currentPage === totalPages" @click="nextPage" class="pagination-button">Next</button>
+    </div>
+  </div>
+</template>
 
 <style scoped>
 .filter-dropdown {

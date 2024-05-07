@@ -1,3 +1,39 @@
+<script setup lang="ts">
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { FwbButton, FwbHeading, FwbInput } from 'flowbite-vue'
+import { trpc } from '@/trpc'
+import useErrorMessage from '@/composables/useErrorMessage'
+import AlertError from '@/components/AlertError.vue'
+
+const router = useRouter()
+
+// Form for creating a new transaction
+const transactionForm = ref({
+  type: 'deposit',
+  amount: 0,
+  description: '',
+  category: '',
+})
+
+const amountString = ref(transactionForm.value.amount.toString())
+
+// Update the mutation call
+const [createTransaction, errorMessage] = useErrorMessage(async () => {
+  transactionForm.value.amount = parseFloat(amountString.value)
+
+  await trpc.transaction.create.mutate(transactionForm.value)
+
+  await router.push({ name: 'Dashboard' })
+})
+
+const clearOnFocus = () => {
+  if (amountString.value === "0" || amountString.value === "0.00") {
+    amountString.value = "";
+  }
+}
+</script>
+
 <template>
   <div class="flex items-center justify-between">
     <form aria-label="Transaction" @submit.prevent="createTransaction">
@@ -57,38 +93,3 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { FwbButton, FwbHeading, FwbInput } from 'flowbite-vue'
-import { trpc } from '@/trpc'
-import useErrorMessage from '@/composables/useErrorMessage'
-import AlertError from '@/components/AlertError.vue'
-
-const router = useRouter()
-
-// Form for creating a new transaction
-const transactionForm = ref({
-  type: 'deposit',
-  amount: 0,
-  description: '',
-  category: '',
-})
-
-const amountString = ref(transactionForm.value.amount.toString())
-
-// Update the mutation call
-const [createTransaction, errorMessage] = useErrorMessage(async () => {
-  transactionForm.value.amount = parseFloat(amountString.value)
-
-  await trpc.transaction.create.mutate(transactionForm.value)
-
-  await router.push({ name: 'Dashboard' })
-})
-
-const clearOnFocus = () => {
-  if (amountString.value === "0" || amountString.value === "0.00") {
-    amountString.value = "";
-  }
-}
-</script>

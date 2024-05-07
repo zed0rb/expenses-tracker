@@ -1,3 +1,25 @@
+<script lang="ts" setup>
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+import { FwbNavbar, FwbNavbarCollapse, FwbNavbarLink } from 'flowbite-vue'
+
+const { links } = defineProps<{
+  links: {
+    label: string
+    name: string
+  }[]
+}>()
+
+const route = useRoute()
+
+const navigation = computed(() =>
+  links.map((item) => ({
+    ...item,
+    isActive: route.name === item.name,
+  }))
+)
+</script>
+
 <template>
   <div class="relative">
     <!-- Sticky Navbar -->
@@ -20,7 +42,6 @@
       </template>
     </FwbNavbar>
 
-    <!-- Main content with spacing from the navbar -->
     <main>
       <div class="container mx-auto px-6 py-8">
         <RouterView />
@@ -29,24 +50,3 @@
   </div>
 </template>
 
-<script lang="ts" setup>
-import { computed } from 'vue'
-import { useRoute } from 'vue-router'
-import { FwbNavbar, FwbNavbarCollapse, FwbNavbarLink } from 'flowbite-vue'
-
-const { links } = defineProps<{
-  links: {
-    label: string
-    name: string
-  }[]
-}>()
-
-const route = useRoute()
-
-const navigation = computed(() =>
-  links.map((item) => ({
-    ...item,
-    isActive: route.name === item.name,
-  }))
-)
-</script>

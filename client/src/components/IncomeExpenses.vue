@@ -1,4 +1,15 @@
-<!-- src/components/IncomeExpenses.vue -->
+<script setup lang="ts">
+defineProps({
+  incomes: {
+    type: Number,
+    required: true,
+  },
+  expenses: {
+    type: Number,
+    required: true,
+  },
+})
+</script>
 
 <template>
   <div class="inc-exp-container">
@@ -12,19 +23,6 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-defineProps({
-  incomes: {
-    type: Number,
-    required: true,
-  },
-  expenses: {
-    type: Number,
-    required: true,
-  },
-})
-</script>
 
 <style scoped>
 #deposit {

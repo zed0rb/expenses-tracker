@@ -1,3 +1,7 @@
+<script lang="ts" setup>
+import { FwbButton } from 'flowbite-vue'
+</script>
+
 <template>
   <!-- Enhanced landing page with Tailwind CSS -->
   <div class="bg-gray-100 dark:bg-gray-900 flex justify-center items-center py-10 px-5">
@@ -39,6 +43,4 @@
   </div>
 </template>
 
-<script lang="ts" setup>
-import { FwbButton } from 'flowbite-vue'
-</script>
+
